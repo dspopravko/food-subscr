@@ -39,22 +39,27 @@ window.addEventListener('DOMContentLoaded', () => {
     })
 
     //Timer
-    const deadline = '2022-08-07'
+    const deadline = '2022-07-15'
 
     function getTimeRemaining(endtime) {
-        const remainTime = Date.parse(endtime) - Date.parse(new Date());
-              days = Math.floor(remainTime/(1000*60*60*24));
-              hours = Math.floor(remainTime/(1000*60*60) % 24);
-              minutes = Math.floor((remainTime/1000/60)%60);
-              seconds = Math.floor((remainTime/1000)%60)
-
-        return {
-            'total': remainTime,
-            days,
-            hours,
-            minutes,
-            seconds
+        const remainTime = Date.parse(endtime) - Date.parse(new Date()),
+              time = {
+                day: '',
+                hour: '',
+                minute: '',
+                second: ''
+              }
+        if (remainTime > 0) {
+            for (key in time) {
+                let options = {};
+                options[key] = '2-digit';
+                time[key] = +new Intl.DateTimeFormat('ru-RU', options).format(new Date(remainTime));
+                console.log(options)
+            }
         }
+        time.total = remainTime;
+
+        return time
     }
 
     function addZero(num) {
@@ -76,10 +81,10 @@ window.addEventListener('DOMContentLoaded', () => {
         function updateClock() {
             const remainTime = getTimeRemaining(endtime);
 
-            days.innerHTML = addZero(remainTime.days);
-            hours.innerHTML = addZero(remainTime.hours);
-            minutes.innerHTML = addZero(remainTime.minutes);
-            seconds.innerHTML = addZero(remainTime.seconds)
+            days.innerHTML = addZero(remainTime.day);
+            hours.innerHTML = addZero(remainTime.hour);
+            minutes.innerHTML = addZero(remainTime.minute);
+            seconds.innerHTML = addZero(remainTime.second)
 
             if (remainTime.total <= 0) {
                 clearInterval(timeInterval)
