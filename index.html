@@ -19,7 +19,7 @@
             </nav>
         </div>
         <div class="header__right-block">
-            <button class="btn btn_white">Связаться с нами</button>
+            <button data-modal class="btn btn_white">Связаться с нами</button>
         </div>
     </header>
     <div class="sidepanel">
@@ -87,7 +87,7 @@
                 </div>
             </div>
             <div class="offer__action">
-                <button class="btn btn_dark">Связаться с нами</button>
+                <button data-modal class="btn btn_dark">Связаться с нами</button>
             </div>
         </div>
         <div class="container">
@@ -214,7 +214,7 @@
                     Мы ценим каждого клиента и предлагаем вам стать одним из них на очень выгодных условиях. 
                     Каждому, кто закажет доставку питание на неделю, будет предоставлена скидка в размере <span>20%!</span>
                     <br><br>
-                    Акция закончится 20 мая в 00:00
+                    Акция закончится 07 августа в 00:00
                 </div>
             </div>
             <div class="promotion__timer">
@@ -263,8 +263,8 @@
         <div class="modal__dialog">
             <div class="modal__content">
                 <form action="#">
-                    <div class="modal__close">&times;</div>
-                    <div class="modal__title">Мы свяжемся с вами как можно быстрее!</div>
+                    <div data-close class="modal__close">&times;</div>
+                    <div  class="modal__title">Мы свяжемся с вами как можно быстрее!</div>
                     <input required placeholder="Ваше имя" name="name" type="text" class="modal__input">
                     <input required placeholder="Ваш номер телефона" name="phone" type="phone" class="modal__input">
                     <button class="btn btn_dark btn_min">Перезвонить мне</button>
