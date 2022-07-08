@@ -43,29 +43,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function getTimeRemaining(endtime) {
         const remainTime = Date.parse(endtime) - Date.parse(new Date()),
-              time = {
-                day: '',
-                hour: '',
-                minute: '',
-                second: ''
-              }
-        if (remainTime > 0) {
-            for (key in time) {
-                let options = {};
-                options[key] = '2-digit';
-                time[key] = +new Intl.DateTimeFormat('ru-RU', options).format(new Date(remainTime));
-                console.log(options)
-            }
-        }
-        time.total = remainTime;
-
-        return time
-    }
-
-    function addZero(num) {
-        if (num >= 0 && num < 10)
-            return `0${num}`
-        else return num
+              options = {
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+              };
+        
+        return (remainTime > 0) ? new Intl.DateTimeFormat('ru-RU', options).format(new Date(remainTime)) : '00, 00:00:00'
     }
 
     function setClock(selector, endtime) {
@@ -80,15 +65,13 @@ window.addEventListener('DOMContentLoaded', () => {
               
         function updateClock() {
             const remainTime = getTimeRemaining(endtime);
+            days.innerHTML = remainTime.slice(0, 2);
+            hours.innerHTML = remainTime.slice(4, 6);
+            minutes.innerHTML = remainTime.slice(7, 9);
+            seconds.innerHTML = remainTime.slice(10, 12)
 
-            days.innerHTML = addZero(remainTime.day);
-            hours.innerHTML = addZero(remainTime.hour);
-            minutes.innerHTML = addZero(remainTime.minute);
-            seconds.innerHTML = addZero(remainTime.second)
-
-            if (remainTime.total <= 0) {
-                clearInterval(timeInterval)
-            }
+            if (remainTime == '00, 00:00:00')
+                console.log('stop')
         }
     }
     setClock('.timer', deadline);
