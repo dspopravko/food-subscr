@@ -39,11 +39,12 @@ window.addEventListener('DOMContentLoaded', () => {
     })
     
     //Timer
-    const deadline = '2022-07-09'
+    const deadline = '2022-08-07'
 
     function getTimeRemaining(endtime) {
-        const remainTime = Date.parse(endtime) - Date.parse(new Date());
-              days = Math.floor(remainTime/(1000*60*60*24));
+        let remainTime = Date.parse(endtime) - Date.parse(new Date());
+        if (remainTime < 0) {remainTime = 0};
+        const days = Math.floor(remainTime/(1000*60*60*24));
               hours = Math.floor(remainTime/(1000*60*60) % 24);
               minutes = Math.floor((remainTime/1000/60)%60);
               seconds = Math.floor((remainTime/1000)%60)
@@ -64,21 +65,22 @@ window.addEventListener('DOMContentLoaded', () => {
               minutes = timer.querySelector('#minutes'),
               seconds = timer.querySelector('#seconds');
               
+        updateClock();
+              
         function updateClock() {
             const remainTime = getTimeRemaining(endtime);
-
+            
             days.innerHTML = ('0' + remainTime.days).slice(-2);
             hours.innerHTML = ('0' + remainTime.hours).slice(-2);
             minutes.innerHTML = ('0' + remainTime.minutes).slice(-2);
             seconds.innerHTML = ('0' + remainTime.seconds).slice(-2);
-
+            
+            const timeInterval = setInterval(updateClock, 1000);
+            
             if (remainTime.total <= 0) {
                 clearInterval(timeInterval)
             }
-        }
-        
-        updateClock();
-        const timeInterval = setInterval(updateClock, 1000);
+        }          
     }
 
     setClock('.timer', deadline);
