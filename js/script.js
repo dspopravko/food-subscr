@@ -65,8 +65,8 @@ window.addEventListener('DOMContentLoaded', () => {
               minutes = timer.querySelector('#minutes'),
               seconds = timer.querySelector('#seconds');
               
-              updateClock();
-
+        updateClock();
+              
         function updateClock() {
             const remainTime = getTimeRemaining(endtime);
             
