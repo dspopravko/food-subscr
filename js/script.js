@@ -266,4 +266,35 @@ window.addEventListener('DOMContentLoaded', () => {
             new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
         })
     })
+
+    //Slider
+
+    const slides = document.querySelectorAll('.offer__slide');
+          prevSlide = document.querySelector('.offer__slider-prev'),
+          nextSlide = document.querySelector('.offer__slider-next'),
+          total = document.querySelector('#total'),
+          current = document.querySelector('#current');
+    let slideIndex = 1;
+
+    showSlides(slideIndex);
+
+    total.textContent = ('0' + slides.length).slice(-2);
+
+    function showSlides (n) {
+        if (n > slides.length) slideIndex = 1;
+        if (n < 1) slideIndex = slides.length;
+    
+        slides.forEach(slide => slide.style.display = 'none');
+
+        slides[slideIndex - 1].style.display = 'block';
+
+        current.textContent =  ('0' + slideIndex).slice(-2);
+    }
+
+    prevSlide.addEventListener('click', () => {
+        showSlides(slideIndex -= 1);
+    })
+    nextSlide.addEventListener('click', () => {
+        showSlides(slideIndex += 1)
+    })
 })
