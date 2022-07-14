@@ -269,16 +269,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //Slider
 
-    const slides = document.querySelectorAll('.offer__slide');
-          prevSlide = document.querySelector('.offer__slider-prev'),
-          nextSlide = document.querySelector('.offer__slider-next'),
+    const slider = document.querySelector('.offer__slider'),
+          slides = document.querySelectorAll('.offer__slide'),
           total = document.querySelector('#total'),
           current = document.querySelector('#current'),
           slidesWrapper = document.querySelector('.offer__slider-wrapper'),
           slidesInner = document.querySelector('.offer__slider-inner'),
-          wrapperWidth = window.getComputedStyle(slidesWrapper).width;
+          wrapperWidth = window.getComputedStyle(slidesWrapper).width,
+          prevSlide = document.querySelector('.offer__slider-prev'),
+          nextSlide = document.querySelector('.offer__slider-next');
     let slideIndex = 1;
-    let offset = 0;
+    let slideOffset = 0;
 
     total.textContent = ('0' + slides.length).slice(-2);
     current.textContent =  ('0' + slideIndex).slice(-2);
@@ -287,47 +288,59 @@ window.addEventListener('DOMContentLoaded', () => {
     slidesInner.style.display = "flex";
 
     slidesWrapper.style.overflow = 'hidden';
-    slides.forEach(slide => {
-        slide.style.width = wrapperWidth
-    })
+    slides.forEach(slide => slide.style.width = wrapperWidth)
+
+    slider.style.position = 'relative';
+
+    const indicators = document.createElement('ol'),
+          dots = [];
+
+    indicators.classList.add('carousel-indicators');
+    slider.append(indicators);
+
+    for (let i = 0; i < slides.length; i++) {
+        const dot = document.createElement('li');
+        dot.setAttribute('data-slide-to', i + 1);
+        dot.classList.add('dot');
+        if (i == (slideIndex - 1)) dot.style.opacity = 1;
+        indicators.append(dot);
+        dots.push(dot);
+    };
     
-    let slideAutoScroll = setInterval(showNextSlide, 3000);
+    let slideAutoScroll = setInterval(showSlide, 3000);
     
     nextSlide.addEventListener('click', () => {
-        showNextSlide(click = true);
-        clearInterval(slideAutoScroll);
-        slideAutoScroll = setInterval(showNextSlide, 5000)
+        slideIndex < +total.textContent ? slideIndex += 1 : slideIndex = 1;
+        showSlide(click = true);
+    })
+    prevSlide.addEventListener('click', () => {
+        slideIndex <= 1 ? slideIndex = +total.textContent : slideIndex -= 1;
+        showSlide(click = true);
     })
 
-    function showNextSlide (click = false) {
-        click == true ? slidesInner.style.transition = "0.5s all" : slidesInner.style.transition = "1.8s all"
-        if (offset === +wrapperWidth.slice(0, wrapperWidth.length - 2) * (slides.length - 1)) {
-            offset = 0;
-        } else offset += +wrapperWidth.slice(0, wrapperWidth.length - 2)
+    function showSlide (click = false) {
+        if (click) {
+            slidesInner.style.transition = "0.5s all";
+            clearInterval(slideAutoScroll);
+            slideAutoScroll = setInterval(showSlide, 5000)
+        } else {
+            slideIndex < +total.textContent ? slideIndex += 1 : slideIndex = 1;
+            slidesInner.style.transition = "1.8s all"
+        }
+        slideOffset = +wrapperWidth.slice(0, wrapperWidth.length - 2) * (slideIndex - 1);
 
-        slidesInner.style.transform = `translateX(-${offset}px)`;
-
-        if (slideIndex == slides.length)
-            slideIndex = 1;
-        else slideIndex++
+        slidesInner.style.transform = `translateX(-${slideOffset}px)`;
 
         current.textContent =  ('0' + slideIndex).slice(-2);
+
+        dots.forEach(dot => dot.style.opacity = '0.5');
+        dots[slideIndex - 1].style.opacity = 1;
     }
 
-    prevSlide.addEventListener('click', () => {
-        clearInterval(slideAutoScroll);
-        slideAutoScroll = setInterval(showNextSlide, 5000)
-        slidesInner.style.transition = "0.5s all";
-        if (offset === 0) {
-            offset = +wrapperWidth.slice(0, wrapperWidth.length - 2) * (slides.length - 1)
-        } else offset -= +wrapperWidth.slice(0, wrapperWidth.length - 2)
-
-        slidesInner.style.transform = `translateX(-${offset}px)`;
-
-        if (slideIndex == 1)
-            slideIndex = slides.length;
-        else slideIndex--
-
-        current.textContent =  ('0' + slideIndex).slice(-2);
+    dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            slideIndex = e.target.getAttribute('data-slide-to');
+            showSlide(click = true);
+        })
     })
 })
