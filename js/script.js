@@ -275,7 +275,7 @@ window.addEventListener('DOMContentLoaded', () => {
           current = document.querySelector('#current'),
           slidesWrapper = document.querySelector('.offer__slider-wrapper'),
           slidesInner = document.querySelector('.offer__slider-inner'),
-          wrapperWidth = window.getComputedStyle(slidesWrapper).width,
+          wrapWidth = window.getComputedStyle(slidesWrapper).width,
           prevSlide = document.querySelector('.offer__slider-prev'),
           nextSlide = document.querySelector('.offer__slider-next');
     let slideIndex = 1;
@@ -288,7 +288,7 @@ window.addEventListener('DOMContentLoaded', () => {
     slidesInner.style.display = "flex";
 
     slidesWrapper.style.overflow = 'hidden';
-    slides.forEach(slide => slide.style.width = wrapperWidth)
+    slides.forEach(slide => slide.style.width = wrapWidth)
 
     slider.style.position = 'relative';
 
@@ -317,6 +317,10 @@ window.addEventListener('DOMContentLoaded', () => {
         slideIndex <= 1 ? slideIndex = +total.textContent : slideIndex -= 1;
         showSlide(click = true);
     })
+    
+    function returnDigits(str) {
+        return +str.replace(/[^0-9\.]/g, '')
+    }
 
     function showSlide (click = false) {
         if (click) {
@@ -327,8 +331,8 @@ window.addEventListener('DOMContentLoaded', () => {
             slideIndex < +total.textContent ? slideIndex += 1 : slideIndex = 1;
             slidesInner.style.transition = "1.8s all"
         }
-        slideOffset = +wrapperWidth.slice(0, wrapperWidth.length - 2) * (slideIndex - 1);
 
+        slideOffset = +returnDigits(wrapWidth) * (slideIndex - 1);
         slidesInner.style.transform = `translateX(-${slideOffset}px)`;
 
         current.textContent =  ('0' + slideIndex).slice(-2);
