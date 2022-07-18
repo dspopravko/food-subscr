@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/dspopravko/food-subscr#readme",
   "devDependencies": {
-    "json-server": "^0.17.0"
+    "json-server": "^0.17.0",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
   },
   "dependencies": {
     "cors": "^2.8.5"
