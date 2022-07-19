@@ -1,7 +1,8 @@
-function tabs({tabsSelector, tabsContentSelector, tabsParentSelector, activeClass}) {
+function tabs({tabsSelector, tabsContentSelector, tabsParentSelector, activeClass, startTab, interval}) {
     const tabs = document.querySelectorAll(tabsSelector),
           tabContents = document.querySelectorAll(tabsContentSelector),
           tabsParent = document.querySelector(tabsParentSelector);
+    let index = startTab;
 
     function hideTabContent() {
         tabContents.forEach(tabContent => {
@@ -20,12 +21,23 @@ function tabs({tabsSelector, tabsContentSelector, tabsParentSelector, activeClas
         tabs[i].classList.add(activeClass)
     }
 
+    function nextTab() {
+        if (index < tabContents.length) {
+          hideTabContent(index);
+          index ++;
+          showTabContent(index);
+        } else index = 0;
+      }
+      
+    let timerId = setInterval(nextTab, interval)
+
     hideTabContent();
-    showTabContent();
+    showTabContent(index);
 
     tabsParent.addEventListener('click', (event) => {
         const target = event.target;
-
+        clearInterval(timerId);
+        
         if (target && target.classList.contains(tabsSelector.slice(1))) {
             tabs.forEach((item, i) => {
                 if (target == item) {

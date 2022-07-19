@@ -15,7 +15,9 @@ window.addEventListener('DOMContentLoaded', () => {
         tabsSelector: '.tabheader__item',
         tabsContentSelector: '.tabcontent',
         tabsParentSelector: '.tabheader__items',
-        activeClass: 'tabheader__item_active'
+        activeClass: 'tabheader__item_active',
+        startTab: 0,
+        interval: 3500
     });
     modal({
         triggerSelector: '[data-modal]',
