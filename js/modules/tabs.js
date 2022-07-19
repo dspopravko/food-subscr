@@ -22,11 +22,9 @@ function tabs({tabsSelector, tabsContentSelector, tabsParentSelector, activeClas
     }
 
     function nextTab() {
-        if (index < tabContents.length) {
+        index < tabContents.length - 1  ? index ++ : index = 0;
           hideTabContent(index);
-          index ++;
           showTabContent(index);
-        } else index = 0;
       }
       
     let timerId = setInterval(nextTab, interval)
